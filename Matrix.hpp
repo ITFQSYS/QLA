@@ -5,6 +5,7 @@
 #include <vector>
 #include <cassert>
 #include <utility>
+#include <cmath>
 #include "Types.hpp"
 
 namespace QLA
@@ -40,6 +41,9 @@ inline Matrix::Matrix(unsigned int rows, unsigned int cols, double v)
     this->rows = rows;
     this->cols = cols;
 
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < rows * cols; i++)
     {
         data[i] = v;
@@ -104,6 +108,10 @@ inline Matrix Matrix::dot(const Matrix &b) const
     assert(cols == b.rows);
 
     Matrix ret(rows, b.cols);
+
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < b.cols; j++)
@@ -122,6 +130,10 @@ inline Matrix Matrix::dot(const Matrix &b) const
 inline Matrix Matrix::T() const
 {
     Matrix ret(cols, rows);
+
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
@@ -135,6 +147,10 @@ inline Matrix Matrix::T() const
 inline double Matrix::l2norm() const
 {
     double ret = 0;
+
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < cols * rows; i++)
     {
         ret += data[i] * data[i];
@@ -177,6 +193,9 @@ inline Matrix Matrix::operator+(Matrix const &m2) const
     Matrix ret(rows, cols);
     assert(rows == m2.rows && cols == m2.cols);
 
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < rows * cols; i++)
     {
         ret.data[i] = data[i] + m2.data[i];
@@ -198,20 +217,29 @@ inline bool Matrix::operator==(Matrix const &m2) const
         return false;
     }
 
+    bool isdiffrent=true;
+
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < rows * cols; i++)
     {
         if (data[i] != m2.data[i])
         {
-            return false;
+            isdiffrent = false;
         }
     }
-    return true;
+    return isdiffrent;
 }
 
 /*行列のスカラー倍*/
 inline Matrix Matrix::operator*(double a) const
 {
     Matrix ret(rows, cols);
+
+#ifdef WITH_OMP
+#pragma omp parallel for
+#endif
     for (int i = 0; i < rows * cols; i++)
     {
         ret.data[i] = data[i] * a;
