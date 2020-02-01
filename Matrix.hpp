@@ -71,7 +71,23 @@ inline Matrix::~Matrix()
 }
 
 /****************** 一般関数 ********************/
+/*コピー*/
+inline void Matrix::copy(Matrix const &m)
+{
+    assert(m.cols *m.rows != 0);
+    if (m.cols * m.rows != cols * rows)
+    {
+        delete[] data;
+        data = new double[rows * cols];
+        cols = m.cols;
+        rows = m.rows;
+    }
 
+    for (size_t i = 0; i < m.rows * m.cols; i++)
+    {
+        data[i] = m.data[i];
+    }
+}
 /*行列の形*/
 inline std::pair<unsigned int, unsigned int> Matrix::shape() const
 {
@@ -217,7 +233,7 @@ inline bool Matrix::operator==(Matrix const &m2) const
         return false;
     }
 
-    bool isdiffrent=true;
+    bool isdiffrent = true;
 
 #ifdef WITH_OMP
 #pragma omp parallel for
@@ -273,18 +289,6 @@ inline void Matrix::operator=(std::initializer_list<double> const &init)
     }
 }
 
-/*iniitializerを用いた初期化(2次元)*/
-// inline Matrix Matrix::operator=(std::initializer_list<std::initializer_list<double>> init)
-// {
-//     rows = init.size();
-//     cols = init.begin.size();
-
-//     int i = 0;
-//     for (auto row= init.begin(); row != init.end(); ++row)
-//     {
-//         assert(cols == row.size());
-//     }
-//}
 
 /*std::coutへの対応*/
 std::ostream &operator<<(std::ostream &os, const Matrix &m)

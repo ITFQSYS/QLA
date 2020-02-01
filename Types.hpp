@@ -23,6 +23,7 @@ public: //メソッド
     ~Matrix(); //デストラクタ
 
     /*一般*/
+    void copy(Matrix const &m);
     std::pair<unsigned int, unsigned int> shape() const;
     unsigned int getRows() const;
     unsigned int getCols() const;
@@ -45,7 +46,6 @@ public: //メソッド
     Matrix operator*(double a) const;
     Matrix operator/(double a) const;
     void operator=(std::initializer_list<double> const &init);
-    //Matrix operator=(std::initializer_list<std::initializer_list<double>> init);
 };
 
 // class Vector :public Matrix
