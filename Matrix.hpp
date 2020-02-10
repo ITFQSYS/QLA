@@ -1,12 +1,12 @@
 #ifndef __QLA_MATRIX_HPP__
 #define __QLA_MATRIX_HPP__ 1
 
-#include <iostream>
-#include <vector>
-#include <cassert>
-#include <utility>
-#include <cmath>
 #include "Types.hpp"
+#include <cassert>
+#include <cmath>
+#include <iostream>
+#include <utility>
+#include <vector>
 
 namespace QLA
 {
@@ -14,6 +14,7 @@ namespace QLA
 /*コンストラクタ*/
 inline Matrix::Matrix()
 {
+    data = nullptr;
     rows = cols = 0;
 }
 
@@ -74,14 +75,13 @@ inline Matrix::~Matrix()
 /*コピー*/
 inline void Matrix::copy(Matrix const &m)
 {
-    assert(m.cols *m.rows != 0 && m.data != nullptr);
-    if (m.cols * m.rows != cols * rows && data != nullptr)
+    assert(m.cols * m.rows != 0 && m.data != nullptr);
+    if (m.cols * m.rows != cols * rows)
     {
-        delete[] data;
-    }
-
-    if(data == nullptr)
-    {
+        if (data != nullptr)
+        {
+            delete[] data;
+        }
         data = new double[m.rows * m.cols];
         cols = m.cols;
         rows = m.rows;
@@ -292,7 +292,6 @@ inline void Matrix::operator=(std::initializer_list<double> const &init)
         i++;
     }
 }
-
 
 /*std::coutへの対応*/
 std::ostream &operator<<(std::ostream &os, const Matrix &m)
