@@ -74,11 +74,15 @@ inline Matrix::~Matrix()
 /*コピー*/
 inline void Matrix::copy(Matrix const &m)
 {
-    assert(m.cols *m.rows != 0);
-    if (m.cols * m.rows != cols * rows)
+    assert(m.cols *m.rows != 0 && m.data != nullptr);
+    if (m.cols * m.rows != cols * rows && data != nullptr)
     {
         delete[] data;
-        data = new double[rows * cols];
+    }
+
+    if(data == nullptr)
+    {
+        data = new double[m.rows * m.cols];
         cols = m.cols;
         rows = m.rows;
     }
