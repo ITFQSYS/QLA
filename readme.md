@@ -13,4 +13,3 @@
 ### オプション
 以下のオプションが利用できます.
 - NDEBUG : relase mode
-- WITH_OMP : use OpenMP
