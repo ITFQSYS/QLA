@@ -42,9 +42,7 @@ inline Matrix::Matrix(unsigned int rows, unsigned int cols, double v)
     this->rows = rows;
     this->cols = cols;
 
-#ifdef WITH_OMP
 #pragma omp parallel for
-#endif
     for (int i = 0; i < rows * cols; i++)
     {
         data[i] = v;
@@ -129,9 +127,7 @@ inline Matrix Matrix::dot(const Matrix &b) const
 
     Matrix ret(rows, b.cols);
 
-#ifdef WITH_OMP
 #pragma omp parallel for
-#endif
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < b.cols; j++)
@@ -151,9 +147,7 @@ inline Matrix Matrix::T() const
 {
     Matrix ret(cols, rows);
 
-#ifdef WITH_OMP
 #pragma omp parallel for
-#endif
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
@@ -168,9 +162,7 @@ inline double Matrix::l2norm() const
 {
     double ret = 0;
 
-#ifdef WITH_OMP
 #pragma omp parallel for
-#endif
     for (int i = 0; i < cols * rows; i++)
     {
         ret += data[i] * data[i];
@@ -213,9 +205,7 @@ inline Matrix Matrix::operator+(Matrix const &m2) const
     Matrix ret(rows, cols);
     assert(rows == m2.rows && cols == m2.cols);
 
-#ifdef WITH_OMP
 #pragma omp parallel for
-#endif
     for (int i = 0; i < rows * cols; i++)
     {
         ret.data[i] = data[i] + m2.data[i];
@@ -239,9 +229,7 @@ inline bool Matrix::operator==(Matrix const &m2) const
 
     bool isdiffrent = true;
 
-#ifdef WITH_OMP
 #pragma omp parallel for
-#endif
     for (int i = 0; i < rows * cols; i++)
     {
         if (data[i] != m2.data[i])

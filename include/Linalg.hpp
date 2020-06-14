@@ -4,6 +4,8 @@
 #include "Types.hpp"
 #include <cassert>
 #include <iostream>
+#include <limits>
+
 namespace QLA
 {
 bool SOR_solver(Matrix const &a, Matrix &x, Matrix const &b, double omega, double eps = 1e-8)
@@ -17,7 +19,7 @@ bool SOR_solver(Matrix const &a, Matrix &x, Matrix const &b, double omega, doubl
     assert(b.getRows() == n);          //連立方程式が成立しているか
 
     Matrix x_new(n, 1, 2);
-    double err = 1e10;
+    double err = std::numeric_limits<double>::max();//doubleの最大値
     int count_iter = 0;
 
     while (err > eps && count_iter < 1e9)
