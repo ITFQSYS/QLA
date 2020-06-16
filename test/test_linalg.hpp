@@ -1,11 +1,9 @@
-#include "qla.hpp"
-
-#include <iostream>
-#include <cmath>
+#include "../include/qla.hpp"
+#include <gtest/gtest.h>
 using namespace QLA;
 using namespace std;
 
-bool test_SOR_solver()
+TEST(LinalgTest,SOR_test)
 {
     Matrix
         a = {10., 3., 1., 2., 1.,
@@ -20,14 +18,7 @@ bool test_SOR_solver()
     b.reshape(5, 1);
     Matrix x(5, 1);
 
-    SOR_solver(a, x, b, 1.1, 1e-10);
+    SOR_solver(a, x, b, 1.1, 1e-12);
 
-    cout << "Error:" << sqrt((a.dot(x) - b).T().dot((a.dot(x) - b))(0, 0)) << endl;
-    return true;
-}
-
-int main(int argc, char const *argv[])
-{
-    test_SOR_solver();
-    return 0;
+   EXPECT_NEAR((b-a.dot(x)).l2norm(),0,1e-5);
 }
