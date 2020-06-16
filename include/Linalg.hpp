@@ -8,7 +8,7 @@
 
 namespace QLA
 {
-    bool SOR_solver(Matrix const &a, Matrix &x, Matrix const &b, double omega, double eps = 1e-8)
+    bool SOR_solver(Matrix const &a, Matrix &x, Matrix const &b, double omega, double eps = 1e-8, bool progress = false)
     {
         const int n = a.getCols();         //ベクトルbの求められるサイズ
         assert(1 < omega && omega < 2);    //SOR法の条件
@@ -50,7 +50,10 @@ namespace QLA
             }
             count_iter++;
 
-            //std::cout << "iteration\t" << count_iter << "\terr=" << err << std::endl;
+            if (progress)
+            {
+                std::cout << "iteration\t" << count_iter << "\terr=" << err << std::endl;
+            }
         }
 
         if (count_iter >= 1e9) //収束しない場合
