@@ -2,7 +2,7 @@ CXX := clang++
 TARGET := test_main
 INCLUDE := -I googletest/googletest/include/
 LIBS := -L googletest/build/lib -lgtest -lgtest_main -lpthread
-SOURCES = $(wildcard *.cpp) 
+SOURCES = test_main.cpp
 
 
 all: run_test
