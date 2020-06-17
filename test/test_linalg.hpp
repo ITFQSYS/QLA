@@ -18,7 +18,7 @@ TEST(LinalgTest,SOR_test)
     b.reshape(5, 1);
     Matrix x(5, 1);
 
-    SOR_solver(a, x, b, 1.1, 1e-12);
+    solve_sor(a, x, b, 1.1, 1e-12);
 
    EXPECT_NEAR((b-a.dot(x)).l2norm(),0,1e-5);
 }

@@ -8,7 +8,8 @@
 
 namespace QLA
 {
-    bool SOR_solver(Matrix const &a, Matrix &x, Matrix const &b, double omega, double eps = 1e-8, bool progress = false)
+    //SOR法を用いて解く omega=1ならばGauss-Seidel法になる
+    bool solve_sor(Matrix const &a, Matrix &x, Matrix const &b, double omega, double eps = 1e-8, bool progress = false)
     {
         const int n = a.getCols();         //ベクトルbの求められるサイズ
         assert(1 < omega && omega < 2);    //SOR法の条件
