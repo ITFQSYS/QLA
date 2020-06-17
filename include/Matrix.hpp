@@ -259,7 +259,6 @@ namespace QLA
 
 #ifdef WITH_OMP
 #pragma omp parallel for
-#endif
         for (int i = 0; i < rows * cols; i++)
         {
             ret.data[i] = data[i] * a;
