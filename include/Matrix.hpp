@@ -48,7 +48,7 @@ inline Matrix::Matrix(unsigned int rows, unsigned int cols, double v)
         data[i] = v;
     }
 }
-/**/
+/*initializer list を用いた初期化*/
 inline Matrix::Matrix(std::initializer_list<double> const &init)
 {
     cols = init.size();
@@ -266,7 +266,7 @@ inline Matrix Matrix::operator/(double a) const
     return operator*(1.0 / a);
 }
 
-/*iniitializerを用いた初期化(1次元)*/
+/*initializerを用いた初期化(1次元)*/
 inline void Matrix::operator=(std::initializer_list<double> const &init)
 {
     cols = init.size();
