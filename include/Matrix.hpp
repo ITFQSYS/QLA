@@ -84,7 +84,7 @@ namespace QLA
 
     /****************** 一般関数 ********************/
     /*コピー*/
-    inline void Matrix::copy(Matrix const &m)
+    void Matrix::copy(Matrix const &m)
     {
         assert(m.cols * m.rows != 0 && m.data != nullptr);
         if (m.cols * m.rows != cols * rows)
@@ -122,7 +122,7 @@ namespace QLA
     }
 
     /*行列の形の変更*/
-    inline void Matrix::reshape(unsigned int new_rows, unsigned int new_cols)
+    void Matrix::reshape(unsigned int new_rows, unsigned int new_cols)
     {
         assert(new_cols * new_rows == cols * rows);
 
@@ -131,17 +131,24 @@ namespace QLA
     }
 
     /*行列のサイズ変更*/
-    inline void Matrix::resize(unsigned int new_rows, unsigned int new_cols)
-    {
+    // void Matrix::resize(unsigned int new_rows, unsigned int new_cols)
+    // {
+    //     if (cols * rows != new_cols * new_rows)
+    //     {
+    //         if (data != nullptr)
+    //         {
+    //             delete[] data;
+    //         }
+    //         data = new double[rows * cols];
 
-        if (cols != new_cols || rows != new_rows)
-        {
-            cols = new_cols;
-            rows = new_rows;
-            delete[] data;
-            data = new double[rows * cols];
-        }
-    }
+    //         cols = new_cols;
+    //         rows = new_rows;
+    //     }
+    //     else
+    //     {
+    //         reshape(new_rows, new_cols);
+    //     }
+    // }
 
     /****************** 数学関数 ********************/
 
@@ -195,6 +202,13 @@ namespace QLA
         return sqrt(ret);
     }
     /****************** オペレーターのオーバーロード ********************/
+
+    /*オブジェクトのコピー*/
+    Matrix &Matrix::operator=(const Matrix &m)
+    {
+        this->copy(m);
+        return *this;
+    }
 
     /*要素の参照*/
     inline double Matrix::operator()(unsigned int row, unsigned int col) const
@@ -270,7 +284,6 @@ namespace QLA
     {
         Matrix ret(rows, cols);
 
-#ifdef WITH_OMP
 #pragma omp parallel for
         for (int i = 0; i < rows * cols; i++)
         {

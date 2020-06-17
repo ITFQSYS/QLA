@@ -19,6 +19,7 @@ public: //メソッド
     Matrix(unsigned int rows, unsigned int cols);
     Matrix(unsigned int rows, unsigned int cols, double v);
     Matrix(std::initializer_list<double> const &init);
+    Matrix(const Matrix &rhs);
     
     ~Matrix(); //デストラクタ
 
@@ -28,7 +29,7 @@ public: //メソッド
     unsigned int getRows() const;
     unsigned int getCols() const;
     void reshape(unsigned int new_rows, unsigned int new_cols);
-    void resize(unsigned int new_rows, unsigned int new_cols);
+    //void resize(unsigned int new_rows, unsigned int new_cols);
 
     /*数学*/
     Matrix dot(const Matrix &B) const;
@@ -37,6 +38,7 @@ public: //メソッド
     //Matrix inverse() const; /*逆行列*/
 
     /*演算子オーバーロード*/
+    Matrix& operator=(const Matrix &m);
     double operator()(unsigned int row, unsigned int col) const;
     double operator()(unsigned int index) const;
     double &operator()(unsigned int row, unsigned int col);
