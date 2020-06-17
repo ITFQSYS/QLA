@@ -28,6 +28,7 @@ public: //メソッド
     unsigned int getRows() const;
     unsigned int getCols() const;
     void reshape(unsigned int new_rows, unsigned int new_cols);
+    void resize(unsigned int new_rows, unsigned int new_cols);
 
     /*数学*/
     Matrix dot(const Matrix &B) const;

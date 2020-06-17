@@ -28,6 +28,28 @@ TEST(MatrixTest, operator_assign_Test)
     }
 }
 
+/*サイズ変更のテスト*/
+TEST(MatrixTest, resize_test)
+{
+    Matrix a(1, 1);
+
+    for (unsigned int i = 2; i < 1000; i++)
+    {
+        a.resize(i, i);
+
+        EXPECT_EQ(a.getRows(),i);
+        EXPECT_EQ(a.getCols(),i);
+        
+        for (size_t j = 0; j < i; j++)
+        {
+            for (size_t k = 0; k < i; k++)
+            {
+                a(j,k)=0;
+            }
+        }
+    }
+}
+
 /*等号のテスト*/
 TEST(MatrixTest, operator_equal_Test)
 {

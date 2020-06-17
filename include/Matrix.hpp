@@ -117,6 +117,14 @@ inline void Matrix::reshape(unsigned int new_rows, unsigned int new_cols)
     rows = new_rows;
 }
 
+inline void Matrix::resize(unsigned int new_rows, unsigned int new_cols)
+{
+    cols = new_cols;
+    rows = new_rows;
+    delete[] data;
+    data = new double[rows * cols];
+}
+
 /****************** 数学関数 ********************/
 
 /*行列積を計算
@@ -227,17 +235,17 @@ inline bool Matrix::operator==(Matrix const &m2) const
         return false;
     }
 
-    bool isdiffrent = true;
+    bool is_diffrent = true;
 
 #pragma omp parallel for
     for (int i = 0; i < rows * cols; i++)
     {
         if (data[i] != m2.data[i])
         {
-            isdiffrent = false;
+            is_diffrent = false;
         }
     }
-    return isdiffrent;
+    return is_diffrent;
 }
 
 /*行列のスカラー倍*/
