@@ -63,6 +63,19 @@ namespace QLA
         }
     }
 
+    /*コピーコンストラクタ*/
+    inline Matrix::Matrix(const Matrix &rhs)
+    {
+        data = new double[rhs.rows * rhs.cols];
+        cols = rhs.cols;
+        rows = rhs.rows;
+
+        for (size_t i = 0; i < rhs.rows * rhs.cols; i++)
+        {
+            data[i] = rhs.data[i];
+        }
+    }
+
     /*デストラクタ*/
     inline Matrix::~Matrix()
     {
